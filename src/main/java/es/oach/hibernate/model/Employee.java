@@ -1,11 +1,14 @@
 package es.oach.hibernate.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -25,19 +28,25 @@ public class Employee implements Serializable {
 	private String name;
 
 	@Column(name = "DATE_OF_BIRTH")
-	private Date dateOfBirth;
+	private LocalDate dateOfBirth;
+
+	@OneToOne(cascade =
+		{ CascadeType.ALL })
+	@JoinColumn(name = "ID_ADDRESS")
+	private Address address;
 
 	public Employee()
 		{
 
 		}
 
-	public Employee(long code, String surname, String name, Date dateOfBirth)
+	public Employee(long code, String surname, String name, LocalDate dateOfBirth, Address address)
 		{
 			this.code = code;
 			this.surname = surname;
 			this.name = name;
 			this.dateOfBirth = dateOfBirth;
+			this.address = address;
 		}
 
 	public long getCode()
@@ -70,21 +79,31 @@ public class Employee implements Serializable {
 			this.name = name;
 		}
 
-	public Date getDateOfBirth()
+	public LocalDate getDateOfBirth()
 		{
 			return dateOfBirth;
 		}
 
-	public void setDateOfBirth(Date dateOfBirth)
+	public void setDateOfBirth(LocalDate dateOfBirth)
 		{
 			this.dateOfBirth = dateOfBirth;
+		}
+
+	public Address getAddress()
+		{
+			return address;
+		}
+
+	public void setAddress(Address address)
+		{
+			this.address = address;
 		}
 
 	@Override
 	public String toString()
 		{
 			return "Employee [code=" + code + ", surname=" + surname + ", name=" + name + ", dateOfBirth=" + dateOfBirth
-					+ "]";
+					+ ", address=" + address + "]";
 		}
 
 }

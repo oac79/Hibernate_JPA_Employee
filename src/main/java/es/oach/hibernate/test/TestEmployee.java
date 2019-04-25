@@ -1,12 +1,13 @@
 package es.oach.hibernate.test;
 
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import es.oach.hibernate.model.Address;
 import es.oach.hibernate.model.Employee;
 
 public class TestEmployee {
@@ -20,8 +21,9 @@ public class TestEmployee {
 			emf = Persistence.createEntityManagerFactory("Persistence");
 			manager = emf.createEntityManager();
 
-			Employee employee = new Employee(1L, "Abad", "Oliver", new GregorianCalendar(1979, 2, 26).getTime());
-			Employee employee2 = new Employee(2L, "Garcia", "Juan", new GregorianCalendar(2002, 5, 5).getTime());
+			Address address = new Address(5L, "Pintor Fortuny", "Molins de Rei", "Catalonia");
+			Employee employee = new Employee(1L, "Abad", "Oliver", LocalDate.of(1979, 2, 6), address);
+			Employee employee2 = new Employee(2L, "Garcia", "Juan", LocalDate.of(2002, 5, 5), address);
 
 			manager.getTransaction().begin();
 
@@ -31,6 +33,8 @@ public class TestEmployee {
 			manager.getTransaction().commit();
 
 			printAllEmployees();
+
+			manager.close();
 
 		}
 
@@ -43,5 +47,6 @@ public class TestEmployee {
 				{
 					System.out.println(employee.toString());
 				}
+			manager.close();
 		}
 }
